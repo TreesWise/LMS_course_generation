@@ -1,0 +1,13 @@
+fastapi===0.115.12
+uvicorn===0.34.2
+streamlit==1.48.0
+openai==1.99.1
+python-dotenv==1.1.0
+requests==2.32.4
+python-multipart==0.0.20
+SQLAlchemy==2.0.42
+fpdf==1.7.2
+pandas==2.3.1
+xlsxwriter==3.2.5
+pyodbc==5.2.0
+streamlit-javascript==0.1.5
