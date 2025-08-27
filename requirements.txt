@@ -148,7 +148,6 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.1.0
 python-multipart==0.0.20
 pytz==2025.2
-pywin32==311
 PyYAML==6.0.2
 pyzmq==27.0.0
 referencing==0.36.2
@@ -204,3 +203,4 @@ xxhash==3.5.0
 yarl==1.20.1
 zipp==3.23.0
 zstandard==0.23.0
+
