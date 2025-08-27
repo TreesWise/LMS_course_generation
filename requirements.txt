@@ -20,3 +20,4 @@ reportlab==4.4.3
 fpdf==1.7.2
 pillow==11.0.0
 streamlit==1.36.0
+gunicorn==21.2.0
