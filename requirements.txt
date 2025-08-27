@@ -189,7 +189,7 @@ tzlocal==5.3.1
 ultralytics==8.3.170
 ultralytics-thop==2.0.14
 urllib3==2.5.0
-uvicorn==0.34.2
+uvicorn
 watchdog==6.0.0
 wcwidth==0.2.13
 wrapt==1.17.2
@@ -198,5 +198,6 @@ xxhash==3.5.0
 yarl==1.20.1
 zipp==3.23.0
 zstandard==0.23.0
+
 
 
