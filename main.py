@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from backend.models import SyllabusRequest
 from backend.generator import generate_syllabus_prompt, generate_detailed_content
 from backend.scorm_exporter import generate_scorm
-from backend.azure_blob_utils import (
+from azure_blob_utils import (
     upload_file_to_blob,
     list_all_scorm_files,
     list_blobs_in_container,
