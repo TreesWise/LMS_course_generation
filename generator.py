@@ -1,4 +1,4 @@
-from gpt_engine import call_gpt
+from backend.gpt_engine import call_gpt
 
 def generate_syllabus_prompt(data: dict) -> str:
     return call_gpt(f"""
