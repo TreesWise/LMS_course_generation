@@ -1,13 +1,24 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from models import SyllabusRequest
-from generator import generate_syllabus_prompt, generate_detailed_content
-from scorm_exporter import generate_scorm
+from backend.models import SyllabusRequest
+from backend.generator import generate_syllabus_prompt, generate_detailed_content
+from backend.scorm_exporter import generate_scorm
+from backend.azure_blob_utils import (
+    upload_file_to_blob,
+    list_all_scorm_files,
+    list_blobs_in_container,
+    search_scorm_files,
+    filter_scorm_files,
+    blob_service_client,
+    AZURE_BLOB_CONTAINER,
+    get_blob_sas_url
+)
 import os
 import zipfile
 from pydantic import BaseModel
 from fastapi import Query
+import shutil
 
 app = FastAPI()
 
@@ -23,7 +34,6 @@ VERIFIED_DIR = "verified_syllabus"
 DETAILED_DIR = "detailed_courses"
 FINAL_DIR = "final_courses"
 os.makedirs(GENERATED_DIR, exist_ok=True)
-os.makedirs(VERIFIED_DIR, exist_ok=True)
 os.makedirs(DETAILED_DIR, exist_ok=True)
 os.makedirs(FINAL_DIR, exist_ok=True)
 
@@ -57,26 +67,9 @@ def get_generated_syllabus():
     return items
 
 
-@app.post("/verify_syllabus/{syllabus_name}")
-def verify_syllabus(syllabus_name: str):
-    src = os.path.join(GENERATED_DIR, syllabus_name, "syllabus.txt")
-    dst = os.path.join(VERIFIED_DIR, syllabus_name)
-    os.makedirs(dst, exist_ok=True)
-
-    if not os.path.exists(src):
-        raise HTTPException(status_code=404, detail="Syllabus not found.")
-
-    with open(src, "r", encoding="utf-8") as f:
-        content = f.read()
-    with open(os.path.join(dst, "syllabus.txt"), "w", encoding="utf-8") as f:
-        f.write(content)
-
-    return {"message": f"Syllabus '{syllabus_name}' verified."}
-
-
 @app.post("/generate_content_from_syllabus/{syllabus_name}")
 def generate_detailed_content_from_syllabus(syllabus_name: str):
-    syllabus_path = os.path.join(VERIFIED_DIR, syllabus_name, "syllabus.txt")
+    syllabus_path = os.path.join(GENERATED_DIR, syllabus_name, "syllabus.txt")
     if not os.path.exists(syllabus_path):
         raise HTTPException(status_code=404, detail="Syllabus not verified.")
 
@@ -84,98 +77,72 @@ def generate_detailed_content_from_syllabus(syllabus_name: str):
         syllabus = f.read()
 
     detailed_content = generate_detailed_content(syllabus)
+
+    # Local temp folder
     folder = os.path.join(DETAILED_DIR, syllabus_name)
     os.makedirs(folder, exist_ok=True)
 
     with open(os.path.join(folder, "outline.txt"), "w", encoding="utf-8") as f:
         f.write(detailed_content)
 
-    generate_scorm(detailed_content, output_dir=folder)
+    # Generate SCORM locally
+    zip_path = generate_scorm(detailed_content, output_dir=folder)
+
+    # Upload zip to Azure Blob
+    blob_name = f"{syllabus_name}.zip"
+    scorm_url = upload_file_to_blob(zip_path, blob_name);
+    
+    list_blobs_in_container()
+
+    # Cleanup local files (optional, keeps disk clean)
+    try:
+        shutil.rmtree(folder)
+        os.remove(zip_path)
+    except Exception:
+        pass
 
     return {
         "course_name": syllabus_name,
         "outline": detailed_content,
-        "scorm_url": f"http://localhost:8000/scorm/{syllabus_name}/index.html"
+        "scorm_url": scorm_url   # ✅ Now returns SAS URL from Azure
     }
 
-class EditedSyllabus(BaseModel):
-    syllabus_name: str
-    syllabus_text: str
-
-@app.post("/save_edited_syllabus/")
-def save_edited_syllabus(data: EditedSyllabus):
-    name = data.syllabus_name
-    text = data.syllabus_text
-
-    folder = os.path.join(GENERATED_DIR, name)
-    os.makedirs(folder, exist_ok=True)
-
-    syllabus_path = os.path.join(folder, "syllabus.txt")
-    with open(syllabus_path, "w", encoding="utf-8") as f:
-        f.write(text)
-
-    return {"message": "Edited syllabus saved successfully"}
 
 @app.get("/final_courses/")
 def list_final_courses():
-    final_list = []
-    source_dir = DETAILED_DIR  # ✅ Read from detailed_courses
-
-    for course_name in sorted(os.listdir(source_dir), reverse=True):
-        course_path = os.path.join(source_dir, course_name)
-        outline_path = os.path.join(course_path, "outline.txt")
-        scorm_index = os.path.join(course_path, "index.html")
-
-        if os.path.exists(outline_path) and os.path.exists(scorm_index):
-            with open(outline_path, "r", encoding="utf-8") as f:
-                outline = f.read()
-
-            final_list.append({
-                "course_name": course_name,
-                "outline": outline,
-                "scorm_url": f"http://localhost:8000/scorm/{course_name}/index.html"  # ✅ uses detailed path
-            })
-
-    return final_list
+    files = list_all_scorm_files()
+    return [
+        {
+            "course_name": os.path.splitext(os.path.basename(f))[0],
+            "scorm_url": f"https://{blob_service_client.account_name}.blob.core.windows.net/{AZURE_BLOB_CONTAINER}/{f}"
+        }
+        for f in files
+    ]
 
 
 @app.get("/final_courses/search")
 def search_final_courses(query: str = Query(...)):
-    """
-    Search final courses by keyword in course_name or outline content.
-    """
+    files = search_scorm_files(query)
     results = []
-    for course_name in os.listdir(DETAILED_DIR):  # Reads from detailed_courses
-        course_path = os.path.join(DETAILED_DIR, course_name)
-        outline_path = os.path.join(course_path, "outline.txt")
-        if os.path.exists(outline_path):
-            with open(outline_path, "r", encoding="utf-8") as f:
-                content = f.read()
-            if query.lower() in course_name.lower() or query.lower() in content.lower():
-                results.append({
-                    "course_name": course_name,
-                    "outline": content,
-                    "scorm_url": f"http://localhost:8000/scorm/{course_name}/index.html"
-                })
+    for f in files:
+        course_name = os.path.splitext(os.path.basename(f))[0]
+        scorm_url = get_blob_sas_url(f)  # ✅ Same format as upload_file_to_blob
+        results.append({
+            "course_name": course_name,
+            "scorm_url": scorm_url
+        })
     return results
 
 
 @app.get("/final_courses/filter")
 def filter_final_courses(filter: str = Query(...)):
-    """
-    Filter final courses by substring match in course_name only.
-    """
+    files = filter_scorm_files(filter)
     results = []
-    for course_name in os.listdir(DETAILED_DIR):  # Reads from detailed_courses
-        if filter.lower() in course_name.lower():
-            course_path = os.path.join(DETAILED_DIR, course_name)
-            outline_path = os.path.join(course_path, "outline.txt")
-            if os.path.exists(outline_path):
-                with open(outline_path, "r", encoding="utf-8") as f:
-                    content = f.read()
-                results.append({
-                    "course_name": course_name,
-                    "outline": content,
-                    "scorm_url": f"http://localhost:8000/scorm/{course_name}/index.html"
-                })
+    for f in files:
+        course_name = os.path.splitext(os.path.basename(f))[0]
+        scorm_url = get_blob_sas_url(f)  # ✅ Same format as upload_file_to_blob
+        results.append({
+            "course_name": course_name,
+            "scorm_url": scorm_url
+        })
     return results
