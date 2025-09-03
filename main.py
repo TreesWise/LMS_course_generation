@@ -1,9 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from backend.models import SyllabusRequest
-from backend.generator import generate_syllabus_prompt, generate_detailed_content
-from backend.scorm_exporter import generate_scorm
+from models import SyllabusRequest
+from generator import generate_syllabus_prompt, generate_detailed_content
+from scorm_exporter import generate_scorm
 from azure_blob_utils import (
     upload_file_to_blob,
     list_all_scorm_files,
