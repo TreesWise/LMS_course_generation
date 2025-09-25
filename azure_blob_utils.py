@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from azure.storage.blob import BlobServiceClient, generate_blob_sas, BlobSasPermissions
 
 AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
-AZURE_BLOB_CONTAINER = os.getenv("AZURE_BLOB_CONTAINER", "coursemappingdocuments")
+AZURE_BLOB_CONTAINER = os.getenv("AZURE_BLOB_CONTAINER", "lms")
 
 # Init client
 blob_service_client = BlobServiceClient.from_connection_string(AZURE_CONNECTION_STRING)
@@ -89,3 +89,4 @@ def get_blob_sas_url(blob_name: str) -> str:
         account_key=blob_service_client.credential.account_key
     )
     return f"https://{blob_service_client.account_name}.blob.core.windows.net/{AZURE_BLOB_CONTAINER}/{blob_name}?{sas_token}"
+
