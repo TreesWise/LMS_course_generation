@@ -3,6 +3,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from models import SyllabusRequest
 from generator import generate_syllabus_prompt, generate_detailed_content
+
+from pydantic import BaseModel
+from typing import List, Dict, Any, Optional
+from report_generator.chatbot_logic import (
+    classify_intent,
+    run_conversation,
+    extract_entities_from_query,
+    get_learner_status
+)
+
+
+
 from scorm_exporter import generate_scorm
 from azure_blob_utils import (
     upload_file_to_blob,
@@ -19,7 +31,7 @@ import zipfile
 from pydantic import BaseModel
 from fastapi import Query
 import shutil
-app = FastAPI(title="LMS Chatbot API")
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
@@ -149,9 +161,9 @@ class ChatRequest(BaseModel):
     session_id: Optional[str] = None
     query: str
 
-@app.get("/")
-def root():
-    return {"message": "LMS Chatbot API running 🚀"}
+# @app.get("/")
+# def root():
+#     return {"message": "LMS Chatbot API running 🚀"}
 
 @app.post("/chat")
 def chat_router(request: ChatRequest):
