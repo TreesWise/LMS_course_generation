@@ -7,6 +7,8 @@ from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 from typing import TypedDict, List
 import urllib.parse
+from sqlalchemy import Column, String, Date
+from sqlalchemy.ext.declarative import declarative_base
 
 load_dotenv()
 
@@ -56,6 +58,40 @@ def get_db_engine():
     engine = create_engine(connection_url, pool_pre_ping=True)
 
     return engine
+
+Base = declarative_base()
+import urllib.parse
+class UserDetail(Base):
+    __tablename__ = 'user_detail'
+    __table_args__ = {'schema': 'dbo'}  # Optional: only needed if using SQL Server schema prefix
+
+    username = Column(String(100), primary_key=True, nullable=False)
+    completion_status = Column(String(100), nullable=True)
+    course = Column(String(100), nullable=True)
+    course_initiate_date = Column(Date, nullable=True)
+    course_completion_date = Column(Date, nullable=True)
+
+
+def init_db():
+    """
+    Initialize Azure SQL database
+    """
+    try:
+        engine = get_db_engine()
+        
+        # Test connection first
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+            print("[DB] Azure SQL connection test successful", flush=True)
+        
+        # Create tables if they don't exist
+        Base.metadata.create_all(bind=engine, checkfirst=True)
+        print("[DB] Azure SQL tables initialized", flush=True)
+        
+    except Exception as e:
+        print(f"[DB] Initialization failed: {e}", flush=True)
+        # Re-raise the exception to prevent app startup if DB is critical
+        raise
 
 
 
@@ -586,3 +622,4 @@ def classify_intent(query: str) -> str:
 #             }
 #             for row in result
 #         ]
+
