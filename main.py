@@ -6,7 +6,7 @@ from generator import generate_syllabus_prompt, generate_detailed_content
 
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
-from report_generator.chatbot_logic import (
+from chatbot_logic import (
     classify_intent,
     run_conversation,
     extract_entities_from_query,
