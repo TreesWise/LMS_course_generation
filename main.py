@@ -4,6 +4,9 @@ from fastapi.staticfiles import StaticFiles
 from models import SyllabusRequest
 from generator import generate_syllabus_prompt, generate_detailed_content
 
+from sqlalchemy.ext.declarative import declarative_base
+Base = declarative_base()
+import urllib.parse
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 from chatbot_logic import (
