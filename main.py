@@ -12,14 +12,6 @@ from typing import List, Dict, Any, Optional
 
 
 
-from chatbot_logic import (
-    classify_intent,
-    run_conversation,
-    extract_entities_from_query,
-    get_learner_status
-)
-
-
 
 from scorm_exporter import generate_scorm
 from azure_blob_utils import (
@@ -163,37 +155,5 @@ def filter_final_courses(filter: str = Query(...)):
             "scorm_url": scorm_url
         })
     return results
-class ChatRequest(BaseModel):
-    session_id: Optional[str] = None
-    query: str
 
-# @app.get("/")
-# def root():
-#     return {"message": "LMS Chatbot API running 🚀"}
-
-@app.post("/chat")
-def chat_router(request: ChatRequest):
-    intent = classify_intent(request.query)
-
-    if intent == "report":
-        entities = extract_entities_from_query(request.query)
-        results = get_learner_status(
-            username=entities.get("username", ""),
-            course=entities.get("course", ""),
-            status=entities.get("status", ""),
-            start_date=entities.get("start_date", ""),
-            end_date=entities.get("end_date", "")
-        )
-
-        if not results:  # ✅ Handle empty response
-            return {
-                "type": "report",
-                "message": "No data found in DB for the given query."
-            }
-        
-        return {"type": "report", "results": results}
-
-    else:  # conversation
-        reply = run_conversation(request.session_id or "default", request.query)
-        return {"type": "conversation", "reply": reply}
 
