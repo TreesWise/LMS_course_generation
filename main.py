@@ -5,7 +5,7 @@ from models import SyllabusRequest
 from generator import generate_syllabus_prompt, generate_detailed_content
 from sqlalchemy import Column, String, Date
 from sqlalchemy.ext.declarative import declarative_base
-from report_generator.chatbot_logic import (
+from chatbot_logic import (
     get_report_categories,
     get_courses_by_status,
     handle_selection
