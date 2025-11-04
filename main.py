@@ -10,6 +10,11 @@ from chatbot_logic import (
     get_courses_by_status,
     handle_selection
 )
+from career_path import (
+    CareerPathRequest,
+    CareerPathResponse,
+    generate_career_path_logic
+)
  
 import urllib.parse
 from pydantic import BaseModel
@@ -197,3 +202,15 @@ def select_item(req: SelectionRequest):
 @app.get("/")
 def root():
     return {"message": "✅ LMS Unified API running successfully!"}
+
+#####Career path endpoint
+@app.post("/career-path/", response_model=CareerPathResponse)
+def generate_career_path(request: CareerPathRequest):
+    """
+    Generate career path courses based on user input (Business Analyst → Program Manager, etc.)
+    """
+    try:
+        response = generate_career_path_logic(request)
+        return response
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
