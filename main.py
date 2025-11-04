@@ -203,7 +203,7 @@ def select_item(req: SelectionRequest):
 def root():
     return {"message": "✅ LMS Unified API running successfully!"}
 
-####Career path endpoint
+#####Career path endpoint
 @app.post("/career-path/", response_model=CareerPathResponse)
 def generate_career_path(request: CareerPathRequest):
     """
