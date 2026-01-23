@@ -1,0 +1,51 @@
+**Course Syllabus: Python1 for Intermediate Learners**  
+**Total Duration:** 4 hours (240 minutes)  
+**Number of Modules:** 6  
+**Preferred Content Type:** Text  
+**Assessment Type:** Multiple Choice Questions (MCQs)  
+**Number of Attempts Allowed for Assessments:** 2  
+
+---
+
+### **Module 1: Advanced Data Structures in Python**  
+**Description:**  
+This module focuses on advanced data structures beyond basic lists, tuples, and dictionaries. Learners will explore sets, frozen sets, and collections such as `defaultdict`, `deque`, and `Counter`. The module will also cover use cases and performance considerations of these structures.  
+
+---
+
+### **Module 2: Functional Programming with Python**  
+**Description:**  
+This module introduces functional programming concepts such as lambda functions, map, filter, reduce, and list comprehensions. Learners will gain an understanding of higher-order functions and how functional programming can simplify complex operations in Python.  
+
+---
+
+### **Module 3: File Handling and Data Serialization**  
+**Description:**  
+Learners will explore advanced file handling techniques, including working with different file types (text, CSV, JSON). The module will also cover data serialization and deserialization using Python libraries such as `pickle` and `json`.  
+
+---
+
+### **Module 4: Error and Exception Handling**  
+**Description:**  
+This module delves deeper into error and exception handling in Python. Learners will study the anatomy of exceptions, custom exception creation, and best practices for writing robust and error-tolerant code.  
+
+---
+
+### **Module 5: Object-Oriented Programming (OOP) in Python**  
+**Description:**  
+This module covers advanced OOP concepts such as inheritance, polymorphism, encapsulation, and abstract classes. Learners will explore the practical applications of OOP principles in designing reusable and scalable Python programs.  
+
+---
+
+### **Module 6: Python Modules and Libraries for Intermediate Learners**  
+**Description:**  
+This final module focuses on exploring commonly used Python libraries such as `os`, `sys`, `datetime`, and `random`. Learners will also learn techniques for creating custom modules and leveraging built-in modules for efficient coding practices.  
+
+---
+
+### **Assessment Guidelines:**  
+- **Assessment Type:** Multiple Choice Questions (MCQs)  
+- Each module will have an assessment consisting of 5-10 MCQs.  
+- Learners are allowed 2 attempts to complete the assessment for each module.  
+
+**End of Syllabus**

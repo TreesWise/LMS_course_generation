@@ -1,28 +1,286 @@
-from fastapi import FastAPI, HTTPException
+# from fastapi import FastAPI, HTTPException
+# from fastapi.middleware.cors import CORSMiddleware
+# from fastapi.staticfiles import StaticFiles
+# from models import SyllabusRequest
+# from generator import generate_syllabus_prompt, generate_detailed_content
+# from sqlalchemy import Column, String, Date
+# from sqlalchemy.ext.declarative import declarative_base
+# from chatbot_logic import (
+#     get_report_categories,
+#     get_courses_by_status,
+#     handle_selection
+# )
+# from career_path import (
+#     CareerPathRequest,
+#     CareerPathResponse,
+#     generate_career_path_logic
+# )
+ 
+# import urllib.parse
+# import json
+# from pydantic import BaseModel
+# from typing import List, Dict, Any, Optional
+ 
+ 
+ 
+ 
+# from scorm_exporter import generate_scorm
+# from azure_blob_utils import (
+#     upload_file_to_blob,
+#     list_all_scorm_files,
+#     list_blobs_in_container,
+#     search_scorm_files,
+#     filter_scorm_files,
+#     blob_service_client,
+#     AZURE_BLOB_CONTAINER,
+#     get_blob_sas_url
+# )
+# import os
+# import zipfile
+# from pydantic import BaseModel
+# from fastapi import Query
+# import shutil
+# app = FastAPI()
+ 
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_methods=["*"],
+#     allow_headers=["*"]
+# )
+ 
+# GENERATED_DIR = "generated_syllabus"
+# VERIFIED_DIR = "verified_syllabus"
+# DETAILED_DIR = "detailed_courses"
+# FINAL_DIR = "final_courses"
+# os.makedirs(GENERATED_DIR, exist_ok=True)
+# os.makedirs(DETAILED_DIR, exist_ok=True)
+# os.makedirs(FINAL_DIR, exist_ok=True)
+ 
+# app.mount("/scorm_final", StaticFiles(directory=FINAL_DIR), name="scorm_final")
+ 
+# # Serve SCORM
+# app.mount("/scorm", StaticFiles(directory=DETAILED_DIR), name="scorm")
+ 
+ 
+# @app.post("/generate_syllabus/")
+# def generate_syllabus(request: SyllabusRequest):
+#     syllabus = generate_syllabus_prompt(request.dict())
+#     name = f"{request.topic.replace(' ', '_').lower()}_{request.audience.lower()}"
+#     folder = os.path.join(GENERATED_DIR, name)
+#     os.makedirs(folder, exist_ok=True)
+
+#     # write syllabus
+#     with open(os.path.join(folder, "syllabus.txt"), "w", encoding="utf-8") as f:
+#         f.write(syllabus)
+
+#     # save metadata so later steps (generate content -> scorm) can access assessment info
+#     meta = {
+#         "topic": request.topic,
+#         "audience": request.audience,
+#         "duration": request.duration,
+#         "content_types": request.content_types,
+#         "assessment_type": getattr(request, "assessment_type", None),
+#         "attempts": getattr(request, "attempts", None),
+#         "modules": getattr(request, "modules", None),
+#         "ai_tone": getattr(request, "ai_tone", None)
+#     }
+#     with open(os.path.join(folder, "meta.json"), "w", encoding="utf-8") as m:
+#         json.dump(meta, m)
+
+#     return {"syllabus_name": name, "syllabus": syllabus}
+ 
+ 
+# @app.get("/generated_syllabus/")
+# def get_generated_syllabus():
+#     items = []
+#     for name in os.listdir(GENERATED_DIR):
+#         path = os.path.join(GENERATED_DIR, name, "syllabus.txt")
+#         if os.path.exists(path):
+#             with open(path, "r", encoding="utf-8") as f:
+#                 items.append({"syllabus_name": name, "syllabus": f.read()})
+#     return items
+ 
+# @app.post("/generate_content_from_syllabus/{syllabus_name}")
+# def generate_detailed_content_from_syllabus(syllabus_name: str):
+#     syllabus_path = os.path.join(GENERATED_DIR, syllabus_name, "syllabus.txt")
+#     meta_path = os.path.join(GENERATED_DIR, syllabus_name, "meta.json")
+#     if not os.path.exists(syllabus_path):
+#         raise HTTPException(status_code=404, detail="Syllabus not verified.")
+
+#     with open(syllabus_path, "r", encoding="utf-8") as f:
+#         syllabus = f.read()
+
+#     # generate detailed content as before
+#     detailed_content = generate_detailed_content(syllabus)
+
+#     # Local temp folder
+#     folder = os.path.join(DETAILED_DIR, syllabus_name)
+#     os.makedirs(folder, exist_ok=True)
+
+#     with open(os.path.join(folder, "outline.txt"), "w", encoding="utf-8") as f:
+#         f.write(detailed_content)
+
+#     # Read metadata (if present) to determine assessment behavior
+#     assessment_type = None
+#     attempts = None
+#     if os.path.exists(meta_path):
+#         try:
+#             with open(meta_path, "r", encoding="utf-8") as m:
+#                 meta = json.load(m)
+#                 assessment_type = meta.get("assessment_type")
+#                 attempts = meta.get("attempts")
+#         except Exception:
+#             pass
+
+#     # Generate SCORM locally — pass assessment_type and attempts
+#     zip_path = generate_scorm(detailed_content, output_dir=folder,
+#                               assessment_type=assessment_type,
+#                               attempts=attempts)
+
+#     # Upload zip to Azure Blob
+#     blob_name = f"{syllabus_name}.zip"
+#     scorm_url = upload_file_to_blob(zip_path, blob_name)
+
+#     list_blobs_in_container()
+
+#     # Cleanup local files (optional, keeps disk clean)
+#     try:
+#         shutil.rmtree(folder)
+#         os.remove(zip_path)
+#     except Exception:
+#         pass
+
+#     return {
+#         "course_name": syllabus_name,
+#         "outline": detailed_content,
+#         "scorm_url": scorm_url
+#     }
+
+ 
+ 
+# @app.get("/final_courses/")
+# def list_final_courses():
+#     files = list_all_scorm_files()
+#     return [
+#         {
+#             "course_name": os.path.splitext(os.path.basename(f))[0],
+#             "scorm_url": f"https://{blob_service_client.account_name}.blob.core.windows.net/{AZURE_BLOB_CONTAINER}/{f}"
+#         }
+#         for f in files
+#     ]
+ 
+ 
+# @app.get("/final_courses/search")
+# def search_final_courses(query: str = Query(...)):
+#     files = search_scorm_files(query)
+#     results = []
+#     for f in files:
+#         course_name = os.path.splitext(os.path.basename(f))[0]
+#         scorm_url = get_blob_sas_url(f)  # ✅ Same format as upload_file_to_blob
+#         results.append({
+#             "course_name": course_name,
+#             "scorm_url": scorm_url
+#         })
+#     return results
+ 
+ 
+# @app.get("/final_courses/filter")
+# def filter_final_courses(filter: str = Query(...)):
+#     files = filter_scorm_files(filter)
+#     results = []
+#     for f in files:
+#         course_name = os.path.splitext(os.path.basename(f))[0]
+#         scorm_url = get_blob_sas_url(f)  # ✅ Same format as upload_file_to_blob
+#         results.append({
+#             "course_name": course_name,
+#             "scorm_url": scorm_url
+#         })
+#     return results
+ 
+ 
+ 
+# # ============================================================
+# #  REPORT GENERATOR ENDPOINTS (from chatbot_ui)
+# # ============================================================
+ 
+# class SelectionRequest(BaseModel):
+#     course: str = ""
+#     learner: str = ""
+#     status: str = ""
+ 
+ 
+# @app.get("/course-reports")
+# def get_reports():
+#     """Step 1: Return static report categories"""
+#     return {"categories": get_report_categories()}
+ 
+ 
+# @app.get("/course-reports/{status}")
+# def get_courses(status: str):
+#     """Step 2: Return distinct courses by status"""
+#     return get_courses_by_status(status)
+ 
+ 
+# @app.post("/course-reports/select")
+# def select_item(req: SelectionRequest):
+#     """Step 3: Select course or learner with optional status"""
+#     return handle_selection(req.course, req.learner, req.status)
+ 
+ 
+# # ============================================================
+# # Health Check
+# # ============================================================
+# @app.get("/")
+# def root():
+#     return {"message": "✅ LMS Unified API running successfully!"}
+
+# #####Career path endpoint
+# @app.post("/career-path/", response_model=CareerPathResponse)
+# def generate_career_path(request: CareerPathRequest):
+#     """
+#     Generate career path courses based on user input (Business Analyst → Program Manager, etc.)
+#     """
+#     try:
+#         response = generate_career_path_logic(request)
+#         return response
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from models import SyllabusRequest
+
 from generator import generate_syllabus_prompt, generate_detailed_content
 from sqlalchemy import Column, String, Date
 from sqlalchemy.ext.declarative import declarative_base
-from chatbot_logic import (
-    get_report_categories,
-    get_courses_by_status,
-    handle_selection
-)
+from chatbot_logic import get_report_categories, get_courses_by_status, handle_selection
 from career_path import (
     CareerPathRequest,
     CareerPathResponse,
-    generate_career_path_logic
+    generate_career_path_logic,
 )
- 
+
 import urllib.parse
+import json
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
- 
- 
- 
- 
+from auth.identity import GetCurrentUser
+from auth.swagger_oauth import (
+    get_swagger_ui_parameters,
+    get_oauth2_scheme_config,
+    ENABLE_SWAGGER_OAUTH,
+)
+
 from scorm_exporter import generate_scorm
 from azure_blob_utils import (
     upload_file_to_blob,
@@ -32,22 +290,24 @@ from azure_blob_utils import (
     filter_scorm_files,
     blob_service_client,
     AZURE_BLOB_CONTAINER,
-    get_blob_sas_url
+    get_blob_sas_url,
 )
 import os
 import zipfile
 from pydantic import BaseModel
 from fastapi import Query
 import shutil
-app = FastAPI()
- 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"]
+
+app = FastAPI(
+    title="LMS Course Generation API",
+    description="AI-powered course generation with Identity Server authentication",
+    version="1.0.0",
 )
- 
+
+app.add_middleware(
+    CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"]
+)
+
 GENERATED_DIR = "generated_syllabus"
 VERIFIED_DIR = "verified_syllabus"
 DETAILED_DIR = "detailed_courses"
@@ -55,26 +315,91 @@ FINAL_DIR = "final_courses"
 os.makedirs(GENERATED_DIR, exist_ok=True)
 os.makedirs(DETAILED_DIR, exist_ok=True)
 os.makedirs(FINAL_DIR, exist_ok=True)
- 
+
+# ============================================================
+# IDENTITY SERVER TEST ENDPOINTS
+# ============================================================
+
+
+@app.get("/test/auth-status")
+async def test_auth_status():
+    """Check authentication configuration - PUBLIC endpoint"""
+    from auth.identity import AUTHENTICATION, IDENTITY_SERVER_AUTHENTICATION
+
+    return {
+        "status": "ok",
+        "authentication_enabled": AUTHENTICATION,
+        "identity_server_enabled": IDENTITY_SERVER_AUTHENTICATION,
+        "identity_server_url": os.getenv("IDENTITY_SERVER_ISSUER"),
+        "message": "✅ Backend running. Test with /test/protected",
+    }
+
+
+@app.get("/test/protected")
+async def test_protected_endpoint(current_user: dict = Depends(GetCurrentUser)):
+    """PROTECTED - Requires valid token from Identity Server"""
+    return {
+        "status": "authenticated",
+        "message": "🎉 SUCCESS! Identity Server validated your token!",
+        "user_id": current_user.get("user_id"),
+        "scopes": current_user.get("scopes"),
+        "proof": "This response means: FastAPI → Identity Server → Validated → Success",
+    }
+
+
+@app.post("/test/get-token")
+async def test_get_service_token():
+    """Get service token from Identity Server"""
+    from auth.identity import GetToken
+
+    try:
+        token = await GetToken()
+        return {
+            "success": True,
+            "token_preview": f"{token}",
+            "next": "Use: curl -H 'Authorization: Bearer TOKEN' http://127.0.0.1:8000/test/protected",
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+
+# ============================================================
 app.mount("/scorm_final", StaticFiles(directory=FINAL_DIR), name="scorm_final")
- 
+
 # Serve SCORM
 app.mount("/scorm", StaticFiles(directory=DETAILED_DIR), name="scorm")
- 
- 
+
+
 @app.post("/generate_syllabus/")
-def generate_syllabus(request: SyllabusRequest):
+def generate_syllabus(
+    request: SyllabusRequest, current_user: dict = Depends(GetCurrentUser)
+):
     syllabus = generate_syllabus_prompt(request.dict())
     name = f"{request.topic.replace(' ', '_').lower()}_{request.audience.lower()}"
     folder = os.path.join(GENERATED_DIR, name)
     os.makedirs(folder, exist_ok=True)
- 
+
+    # write syllabus
     with open(os.path.join(folder, "syllabus.txt"), "w", encoding="utf-8") as f:
         f.write(syllabus)
- 
+
+    # save metadata so later steps (generate content -> scorm) can access assessment info
+    meta = {
+        "topic": request.topic,
+        "audience": request.audience,
+        "duration": request.duration,
+        "content_types": request.content_types,
+        "assessment_type": getattr(request, "assessment_type", None),
+        "attempts": getattr(request, "attempts", None),
+        "modules": getattr(request, "modules", None),
+        "ai_tone": getattr(request, "ai_tone", None),
+    }
+    with open(os.path.join(folder, "meta.json"), "w", encoding="utf-8") as m:
+        json.dump(meta, m)
+
     return {"syllabus_name": name, "syllabus": syllabus}
- 
- 
+
+
 @app.get("/generated_syllabus/")
 def get_generated_syllabus():
     items = []
@@ -84,118 +409,137 @@ def get_generated_syllabus():
             with open(path, "r", encoding="utf-8") as f:
                 items.append({"syllabus_name": name, "syllabus": f.read()})
     return items
- 
- 
+
+
 @app.post("/generate_content_from_syllabus/{syllabus_name}")
-def generate_detailed_content_from_syllabus(syllabus_name: str):
+def generate_detailed_content_from_syllabus(
+    syllabus_name: str, current_user: dict = Depends(GetCurrentUser)
+):
     syllabus_path = os.path.join(GENERATED_DIR, syllabus_name, "syllabus.txt")
+    meta_path = os.path.join(GENERATED_DIR, syllabus_name, "meta.json")
     if not os.path.exists(syllabus_path):
         raise HTTPException(status_code=404, detail="Syllabus not verified.")
- 
+
     with open(syllabus_path, "r", encoding="utf-8") as f:
         syllabus = f.read()
- 
+
+    # generate detailed content as before
     detailed_content = generate_detailed_content(syllabus)
- 
+
     # Local temp folder
     folder = os.path.join(DETAILED_DIR, syllabus_name)
     os.makedirs(folder, exist_ok=True)
- 
+
     with open(os.path.join(folder, "outline.txt"), "w", encoding="utf-8") as f:
         f.write(detailed_content)
- 
-    # Generate SCORM locally
-    zip_path = generate_scorm(detailed_content, output_dir=folder)
- 
+
+    # Read metadata (if present) to determine assessment behavior
+    assessment_type = None
+    attempts = None
+    if os.path.exists(meta_path):
+        try:
+            with open(meta_path, "r", encoding="utf-8") as m:
+                meta = json.load(m)
+                assessment_type = meta.get("assessment_type")
+                attempts = meta.get("attempts")
+        except Exception:
+            pass
+
+    # Generate SCORM locally — pass assessment_type and attempts
+    zip_path = generate_scorm(
+        detailed_content,
+        output_dir=folder,
+        assessment_type=assessment_type,
+        attempts=attempts,
+    )
+
     # Upload zip to Azure Blob
     blob_name = f"{syllabus_name}.zip"
-    scorm_url = upload_file_to_blob(zip_path, blob_name);
-   
+    scorm_url = upload_file_to_blob(zip_path, blob_name)
+
     list_blobs_in_container()
- 
+
     # Cleanup local files (optional, keeps disk clean)
     try:
         shutil.rmtree(folder)
         os.remove(zip_path)
     except Exception:
         pass
- 
+
     return {
         "course_name": syllabus_name,
         "outline": detailed_content,
-        "scorm_url": scorm_url   # ✅ Now returns SAS URL from Azure
+        "scorm_url": scorm_url,
     }
- 
- 
+
+
 @app.get("/final_courses/")
 def list_final_courses():
     files = list_all_scorm_files()
     return [
         {
             "course_name": os.path.splitext(os.path.basename(f))[0],
-            "scorm_url": f"https://{blob_service_client.account_name}.blob.core.windows.net/{AZURE_BLOB_CONTAINER}/{f}"
+            "scorm_url": f"https://{blob_service_client.account_name}.blob.core.windows.net/{AZURE_BLOB_CONTAINER}/{f}",
         }
         for f in files
     ]
- 
- 
+
+
 @app.get("/final_courses/search")
-def search_final_courses(query: str = Query(...)):
+def search_final_courses(
+    query: str = Query(...), current_user: dict = Depends(GetCurrentUser)
+):
     files = search_scorm_files(query)
     results = []
     for f in files:
         course_name = os.path.splitext(os.path.basename(f))[0]
         scorm_url = get_blob_sas_url(f)  # ✅ Same format as upload_file_to_blob
-        results.append({
-            "course_name": course_name,
-            "scorm_url": scorm_url
-        })
+        results.append({"course_name": course_name, "scorm_url": scorm_url})
     return results
- 
- 
+
+
 @app.get("/final_courses/filter")
-def filter_final_courses(filter: str = Query(...)):
+def filter_final_courses(
+    filter: str = Query(...), current_user: dict = Depends(GetCurrentUser)
+):
     files = filter_scorm_files(filter)
     results = []
     for f in files:
         course_name = os.path.splitext(os.path.basename(f))[0]
         scorm_url = get_blob_sas_url(f)  # ✅ Same format as upload_file_to_blob
-        results.append({
-            "course_name": course_name,
-            "scorm_url": scorm_url
-        })
+        results.append({"course_name": course_name, "scorm_url": scorm_url})
     return results
- 
- 
- 
+
+
 # ============================================================
 #  REPORT GENERATOR ENDPOINTS (from chatbot_ui)
 # ============================================================
- 
+
+
 class SelectionRequest(BaseModel):
     course: str = ""
     learner: str = ""
     status: str = ""
- 
- 
+
+
 @app.get("/course-reports")
-def get_reports():
+def get_reports(current_user: dict = Depends(GetCurrentUser)):
     """Step 1: Return static report categories"""
     return {"categories": get_report_categories()}
- 
- 
+
+
 @app.get("/course-reports/{status}")
-def get_courses(status: str):
+def get_courses(status: str, current_user: dict = Depends(GetCurrentUser)):
     """Step 2: Return distinct courses by status"""
     return get_courses_by_status(status)
- 
- 
+
+
 @app.post("/course-reports/select")
-def select_item(req: SelectionRequest):
+def select_item(req: SelectionRequest, current_user: dict = Depends(GetCurrentUser)):
     """Step 3: Select course or learner with optional status"""
     return handle_selection(req.course, req.learner, req.status)
- 
- 
+
+
 # ============================================================
 # Health Check
 # ============================================================
@@ -203,9 +547,12 @@ def select_item(req: SelectionRequest):
 def root():
     return {"message": "✅ LMS Unified API running successfully!"}
 
+
 #####Career path endpoint
 @app.post("/career-path/", response_model=CareerPathResponse)
-def generate_career_path(request: CareerPathRequest):
+def generate_career_path(
+    request: CareerPathRequest, current_user: dict = Depends(GetCurrentUser)
+):
     """
     Generate career path courses based on user input (Business Analyst → Program Manager, etc.)
     """

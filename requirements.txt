@@ -20,3 +20,5 @@ langgraph-prebuilt==0.5.2
 langgraph-sdk==0.1.72
 langsmith==0.4.4
 pyodbc==5.2.0
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
