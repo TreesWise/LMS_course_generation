@@ -1,0 +1,228 @@
+<html><head><meta charset='utf-8'><title>Course</title></head><body><h1>Course Content</h1>
+<pre>### **Detailed Module Content for Java121 for Intermediate Learners**
+
+---
+
+### **Module 1: Advanced Object-Oriented Programming Concepts in Java**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module delves into advanced object-oriented programming (OOP) principles, providing learners with a thorough understanding and practical implementation of key concepts. By mastering inheritance, polymorphism, encapsulation, and abstraction, learners will be equipped to design scalable and efficient Java applications.
+
+---
+
+#### **Key Topics Covered:**  
+- **Inheritance:**  
+  - Definition and purpose of inheritance in Java.  
+  - How to extend classes using the `extends` keyword.  
+  - Exploring hierarchical and multilevel inheritance.  
+
+- **Polymorphism:**  
+  - Compile-time polymorphism (method overloading).  
+  - Runtime polymorphism (method overriding).  
+  - Use cases and benefits of polymorphism in code flexibility.  
+
+- **Encapsulation:**  
+  - Importance of data hiding through private fields.  
+  - Using getters and setters to access private data.  
+  - Real-world scenarios for encapsulation in Java applications.  
+
+- **Abstraction:**  
+  - Understanding abstract classes and methods.  
+  - Practical implementation of abstraction using abstract classes and interfaces.  
+
+- **Method Overriding:**  
+  - Rules for overriding methods in Java.  
+  - Using the `@Override` annotation to ensure accuracy.  
+  - Differentiating between overriding and overloading.  
+
+---
+
+#### **Example Scenario:**  
+Imagine you are developing a payment system for an e-commerce platform. You need to create a class hierarchy where `Payment` serves as the base class, and specialized classes like `CreditCardPayment` and `PaypalPayment` inherit from it. Using polymorphism, you can define a common method `processPayment()` in the base class and override it in each subclass to handle payment-specific logic.
+
+---
+
+#### **Summary:**  
+By the end of this module, learners will have a strong grasp of advanced OOP principles in Java. They will be able to design applications leveraging inheritance, polymorphism, encapsulation, and abstraction effectively, making their code modular and maintainable.
+
+---
+
+### **Module 2: Java Collections Framework and Generics**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module introduces learners to the Java Collections Framework and generics, focusing on efficient data storage, retrieval, and manipulation techniques. Learners will explore the use of Lists, Sets, Maps, and Queues, along with the implementation of generics for type safety and flexibility.  
+
+---
+
+#### **Key Topics Covered:**  
+- **Overview of Collections Framework:**  
+  - Understanding core interfaces (`List`, `Set`, `Map`, `Queue`).  
+  - Differences between Array and Collection.  
+  - Advantages of using collections in Java.  
+
+- **Exploring Collection Types:**  
+  - **Lists:** Ordered collections, such as `ArrayList` and `LinkedList`.  
+  - **Sets:** Unique elements, including `HashSet` and `TreeSet`.  
+  - **Maps:** Key-value pairs, such as `HashMap` and `TreeMap`.  
+  - **Queues:** FIFO order, including `PriorityQueue` and `Deque`.  
+
+- **Generics:**  
+  - Introduction to type parameters.  
+  - Advantages of generics in ensuring type safety.  
+  - Implementing generic classes and methods.  
+
+---
+
+#### **Example Scenario:**  
+Suppose you are building a library management system that tracks borrowed books. You can use a `HashMap` to store book titles as keys and borrower names as values. Generics ensure you can define the structure as `HashMap&lt;String, String&gt;`, preventing the accidental addition of incorrect data types.
+
+---
+
+#### **Summary:**  
+By the end of this module, learners will understand how to use Java Collections Framework to manage data efficiently and leverage generics to create reusable and type-safe code structures.
+
+---
+
+### **Module 3: Exception Handling and Debugging**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module equips learners with robust exception handling techniques to ensure application stability. It also provides tools and strategies for debugging Java code effectively to identify and resolve runtime errors.  
+
+---
+
+#### **Key Topics Covered:**  
+- **Exception Basics:**  
+  - Types of exceptions: checked, unchecked, and errors.  
+  - Common exceptions (e.g., `NullPointerException`, `IOException`).  
+
+- **Handling Exceptions:**  
+  - Using try-catch blocks to manage exceptions.  
+  - Throwing exceptions with the `throw` keyword.  
+  - Declaring exceptions with the `throws` keyword.  
+
+- **Custom Exceptions:**  
+  - Creating user-defined exceptions.  
+  - Practical scenarios for custom exception usage.  
+
+- **Debugging Techniques:**  
+  - Using IDE debugging tools (e.g., breakpoints, watches).  
+  - Identifying logical errors through systematic testing.  
+
+---
+
+#### **Example Scenario:**  
+While developing a file upload feature, you might encounter errors like `FileNotFoundException` or `IOException`. Using try-catch blocks, you can handle these exceptions and display a user-friendly error message instead of crashing the application.
+
+---
+
+#### **Summary:**  
+By the end of this module, learners will be proficient in handling exceptions gracefully, creating custom exceptions for specific scenarios, and debugging Java code to eliminate runtime issues effectively.
+
+---
+
+### **Module 4: Working with Java Streams and Lambda Expressions**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module introduces functional programming features in Java, focusing on the Java Stream API and lambda expressions. Learners will understand how to process data collections efficiently using streams and write concise, functional code.  
+
+---
+
+#### **Key Topics Covered:**  
+- **Streams:**  
+  - Creating and manipulating streams.  
+  - Intermediate operations (e.g., `filter`, `map`).  
+  - Terminal operations (e.g., `collect`, `forEach`).  
+
+- **Lambda Expressions:**  
+  - Syntax and use cases of lambda expressions.  
+  - Functional interfaces in Java (`Predicate`, `Consumer`, etc.).  
+
+- **Method References:**  
+  - Types of method references (static, instance, constructor).  
+  - Using method references for cleaner code.  
+
+---
+
+#### **Example Scenario:**  
+Imagine you have a list of student names and need to filter only those starting with the letter &quot;A&quot;. Using streams and lambda expressions, you can achieve this with concise code:  
+```java  
+List&lt;String&gt; students = Arrays.asList(&quot;Alice&quot;, &quot;Bob&quot;, &quot;Anna&quot;, &quot;John&quot;);  
+List&lt;String&gt; filtered = students.stream()  
+    .filter(name -&gt; name.startsWith(&quot;A&quot;))  
+    .collect(Collectors.toList());  
+```
+
+---
+
+#### **Summary:**  
+By the end of this module, learners will master functional programming in Java, enabling them to process data collections efficiently and write cleaner, more expressive code using streams and lambda expressions.
+
+---
+
+### **Module 5: File Handling and Input/Output (I/O) Operations**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module explores file handling in Java, covering I/O streams and the NIO package for text and binary file management. Learners will gain practical knowledge of reading, writing, and managing file operations efficiently.  
+
+---
+
+#### **Key Topics Covered:**  
+- **File I/O Basics:**  
+  - Reading and writing text files using `FileReader` and `FileWriter`.  
+  - Handling binary files using `BufferedInputStream` and `BufferedOutputStream`.  
+
+- **NIO Package:**  
+  - Working with `Path` and `Files` classes.  
+  - Performing file operations (create, delete, copy).  
+
+- **File Handling Best Practices:**  
+  - Closing streams using try-with-resources.  
+  - Error handling during file operations.  
+
+---
+
+#### **Example Scenario:**  
+Suppose you are designing a log system for an application. You can write log entries to a file using `FileWriter` and append new entries with each operation. This ensures all actions are recorded for auditing purposes.
+
+---
+
+#### **Summary:**  
+By the end of this module, learners will confidently handle file operations in Java, utilizing both I/O streams and NIO utilities to manage text and binary files efficiently.
+
+---
+
+### **Module 6: Multithreading and Concurrency in Java**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module covers multithreading and concurrency concepts, enabling learners to create high-performing applications that handle multiple tasks simultaneously.  
+
+---
+
+#### **Key Topics Covered:**  
+- **Thread Basics:**  
+  - Lifecycle of a thread (new, runnable, running, terminated).  
+  - Creating threads using `Thread` class and `Runnable` interface.  
+
+- **Synchronization:**  
+  - Ensuring thread safety using synchronized blocks/methods.  
+  - Preventing race conditions in shared resources.  
+
+- **Concurrency Utilities:**  
+  - Using `ExecutorService` for thread management.  
+  - Implementing locks and semaphores for advanced synchronization.  
+
+---
+
+#### **Example Scenario:**  
+Consider a banking application where multiple users can perform transactions simultaneously. Using multithreading and synchronization, you can ensure that shared resources like account balance are updated correctly without conflicts.
+
+---
+
+#### **Summary:**  
+By the end of this module, learners will be adept at creating and managing threads, implementing synchronization techniques, and using concurrency utilities to build efficient, multithreaded Java applications.
+
+---
+
+This structured content ensures learners gain a comprehensive understanding of intermediate Java concepts. Each module builds upon the previous one, providing practical examples and summaries for enhanced learning retention.</pre>
+<hr/><p><a href='assessment.html'>Go to final assessment</a></p>
+</body></html>

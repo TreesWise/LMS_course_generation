@@ -46,3 +46,7 @@ class SyllabusRequest(BaseModel):
         if v < 1:
             raise ValueError("modules must be >= 1")
         return v
+    
+class UpdateContentRequest(BaseModel):
+    syllabus_name: str
+    updated_content: str

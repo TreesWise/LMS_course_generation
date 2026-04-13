@@ -20,7 +20,32 @@ def generate_syllabus_prompt(data: Dict[str, Any]) -> str:
     assessment_type = data.get("assessment_type")
     attempts = data.get("attempts")
     modules = data.get("modules")
+    audience = data.get("audience")
     tone = data.get("ai_tone", "Formal")
+
+    audience_rules = {
+        "beginner": """
+        - Assume NO prior knowledge
+        - Start from fundamentals
+        - Use simple and clear module titles
+        - Include basic concepts and definitions
+        - Avoid complex jargon
+        """,
+                "intermediate": """
+        - Assume basic prior knowledge
+        - Skip very basic introductions
+        - Focus on practical usage and workflows
+        - Include real-world applications
+        - Use moderately technical terms
+        """,
+                "advanced": """
+        - Assume strong prior knowledge
+        - Focus on deep concepts and optimization
+        - Include advanced topics and best practices
+        - Use technical terminology
+        - Avoid basic explanations
+        """
+            }
 
     assessment_line = ""
     if assessment_type:
@@ -30,6 +55,7 @@ def generate_syllabus_prompt(data: Dict[str, Any]) -> str:
 
     prompt = f"""
 Create a course syllabus for the topic '{data['topic']}' for {data['audience']} learners.
+Audience Guidelines:{audience_rules.get(audience, audience_rules["beginner"])}
 Total duration: {duration} (hours:minutes).
 Number of modules required: {modules}.
 Preferred content types: {content_types}.{assessment_line}
@@ -38,20 +64,15 @@ Write the syllabus in a {tone.lower()} tone.
 
 Return structured module-wise syllabus:
 - Each module must have a title
-- Modules should have short description"""
+- Modules should have short description
+- Module titles MUST reflect audience level
+    - Beginner → simple names
+    - Intermediate → practical names
+    - Advanced → technical names
+- Keep structure clean and consistent
+- Do NOT use markdown symbols (#, *, etc.)
+- Use plain text only
+"""
 
     # Trim and pass to GPT engine
     return call_gpt(prompt.strip())
-
-
-def generate_detailed_content(syllabus_text: str, ai_tone: str = "Formal") -> str:
-    return call_gpt(f"""
-Here is a course syllabus:\n\n{syllabus_text}
-
-Generate detailed module content in a {ai_tone.lower()} tone.
-Each module should contain:
-- Clear explanation
-- Bullet points
-- Example scenarios
-- Summary at module end
-""".strip())

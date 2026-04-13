@@ -1,0 +1,59 @@
+**Course Syllabus: Java121 for Intermediate Learners**  
+**Total Duration:** 4 Hours  
+**Number of Modules:** 6  
+**Preferred Content Type:** Text  
+**Assessment Type:** Multiple Choice Questions (MCQs)  
+**Number of Attempts Allowed:** 2  
+
+---
+
+### **Module 1: Advanced Object-Oriented Programming Concepts in Java**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module provides an in-depth understanding of advanced object-oriented programming (OOP) concepts in Java. Topics include inheritance, polymorphism, encapsulation, abstraction, and their practical implementation. Learners will also explore the use of abstract classes, interfaces, and method overriding.  
+
+---
+
+### **Module 2: Java Collections Framework and Generics**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module focuses on the Java Collections Framework, including Lists, Sets, Maps, and Queues. Learners will also explore the implementation and applications of generics in collections. Practical examples will demonstrate how to store, retrieve, and manipulate data efficiently using collections.  
+
+---
+
+### **Module 3: Exception Handling and Debugging**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module introduces robust exception handling techniques in Java, including try-catch blocks, throw, throws, and finally. Learners will understand how to use custom exceptions and debug Java code effectively to identify and resolve runtime errors.  
+
+---
+
+### **Module 4: Working with Java Streams and Lambda Expressions**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module delves into functional programming in Java. Topics include the Java Stream API, lambda expressions, and method references. Learners will understand how to process collections of data using streams and write concise, functional code.  
+
+---
+
+### **Module 5: File Handling and Input/Output (I/O) Operations**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module explores file handling in Java, covering reading from and writing to files using the I/O streams and NIO package. Learners will gain practical knowledge of handling text and binary files and managing file operations efficiently.  
+
+---
+
+### **Module 6: Multithreading and Concurrency in Java**  
+**Duration:** 40 Minutes  
+**Description:**  
+This module covers multithreading concepts, thread lifecycle, and synchronization in Java. Learners will explore the creation and management of threads, thread safety, and concurrent utilities to build efficient and high-performing applications.  
+
+---
+
+### **Assessment Details**  
+- **Assessment Type:** Multiple Choice Questions (MCQs)  
+- **Number of Attempts Allowed:** 2  
+- **Assessment Structure:** Each module will conclude with an MCQ-based assessment to evaluate understanding and practical application of the concepts covered.  
+
+---
+
+**End of Syllabus**

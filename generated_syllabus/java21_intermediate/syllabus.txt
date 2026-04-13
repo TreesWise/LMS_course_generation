@@ -1,0 +1,59 @@
+**Course Syllabus: Java 21 for Intermediate Learners**  
+**Total Duration:** 04:00 (hours:minutes)  
+**Number of Modules:** 6  
+**Preferred Content Type:** Text  
+**Assessment Type:** MCQ (Multiple Choice Questions)  
+**Number of Attempts Allowed:** 2  
+
+---
+
+### **Module 1: Introduction to Java 21 Features**  
+**Duration:** 0:30 hours  
+**Description:**  
+This module introduces learners to the new features and improvements introduced in Java 21. Topics include language enhancements, performance updates, and compatibility considerations. Learners will understand how Java 21 differs from its predecessors.  
+
+---
+
+### **Module 2: Enhanced Pattern Matching and Records**  
+**Duration:** 0:45 hours  
+**Description:**  
+This module dives into the enhancements in pattern matching and records. It covers advanced pattern matching for `switch` statements, improvements in record classes, and practical examples of implementing these features in real-world scenarios.  
+
+---
+
+### **Module 3: Virtual Threads and Concurrency Enhancements**  
+**Duration:** 0:45 hours  
+**Description:**  
+Learners will explore Java 21's virtual threads and their impact on concurrent programming. This module discusses the advantages of virtual threads over traditional threads, how to implement them, and use cases for optimizing multi-threaded applications.  
+
+---
+
+### **Module 4: Advanced APIs and Libraries**  
+**Duration:** 0:30 hours  
+**Description:**  
+This module focuses on enhancements and additions to the Java standard libraries, including updates to the Collections framework, new APIs, and improvements in existing methods. Learners will gain hands-on knowledge of utilizing these APIs effectively.  
+
+---
+
+### **Module 5: Improvements in Garbage Collection and JVM Performance**  
+**Duration:** 0:30 hours  
+**Description:**  
+This module provides an overview of the enhancements in garbage collection algorithms and overall JVM performance improvements in Java 21. Learners will understand how these updates contribute to application efficiency and resource management.  
+
+---
+
+### **Module 6: Building Robust Applications with Java 21**  
+**Duration:** 0:30 hours  
+**Description:**  
+In the final module, learners will integrate their knowledge to build robust, maintainable, and efficient applications using Java 21. Topics include best practices, debugging techniques, and performance optimization strategies tailored to this Java version.  
+
+---
+
+### **Assessments**  
+- **Type of Assessment:** Multiple Choice Questions (MCQs)  
+- **Number of Attempts Allowed:** 2 per assessment  
+- **Assessment Schedule:** Each module concludes with an assessment to evaluate comprehension and application of the concepts covered.  
+
+--- 
+
+**Note:** Upon successful completion of all modules and assessments, learners will gain a comprehensive understanding of Java 21’s intermediate concepts and features, enabling them to apply this knowledge in real-world projects.

@@ -1,0 +1,54 @@
+Course Syllabus  
+Course Title: Data Analysis 7 – Intermediate Level  
+Duration: 4 hours  
+Number of Modules: 3  
+Assessment Type: MCQ (Multiple-Choice Questions)  
+Number of Attempts Allowed: 2  
+
+Module 1: Advanced Data Cleaning and Preparation  
+Description:  
+This module delves into practical techniques for cleaning, transforming, and preparing datasets for analysis. Participants will explore methods for handling missing values, outliers, and inconsistencies in real-world datasets. The session will emphasize the importance of data preparation as the foundation for accurate analysis and will introduce intermediate-level tools for automation and optimization.  
+
+Learning Objectives:  
+- Identify and resolve common data quality issues.  
+- Apply methods for handling missing data and outliers.  
+- Implement techniques for efficient data transformation.  
+- Use tools and workflows to streamline preparation tasks.  
+
+Duration: 1 hour 20 minutes  
+
+Assessment:  
+MCQ covering data cleaning strategies, tools, and workflows.  
+
+Module 2: Intermediate Statistical Analysis and Visualization  
+Description:  
+This module focuses on applying statistical techniques to extract insights from data and creating impactful visualizations. Participants will learn to use descriptive and inferential statistical methods to interpret data patterns and trends. Practical emphasis will be placed on tools for designing visualizations that effectively communicate findings to stakeholders.  
+
+Learning Objectives:  
+- Perform intermediate-level statistical analyses, including correlation and hypothesis testing.  
+- Interpret statistical results in the context of real-world scenarios.  
+- Design and develop meaningful visualizations for data storytelling.  
+- Leverage visualization tools to enhance analytical workflows.  
+
+Duration: 1 hour 20 minutes  
+
+Assessment:  
+MCQ assessing statistical concepts, interpretation, and visualization techniques.  
+
+Module 3: Real-World Applications of Predictive Analytics  
+Description:  
+In this module, participants will explore predictive modeling and analytics in practical contexts. The focus will be on implementing intermediate-level machine learning techniques to make predictions and solve industry-relevant problems. Case studies will be introduced to illustrate the practical workflow of predictive analytics, from data preparation to model evaluation.  
+
+Learning Objectives:  
+- Understand the workflow of predictive analytics in real-world scenarios.  
+- Apply machine learning algorithms for intermediate-level predictions.  
+- Evaluate model performance and ensure reliability.  
+- Solve practical problems using predictive analytics techniques.  
+
+Duration: 1 hour 20 minutes  
+
+Assessment:  
+MCQ focusing on predictive analytics workflows, model implementation, and evaluation.  
+
+Final Note:  
+Participants are encouraged to engage actively with the modules and assessments to reinforce learning outcomes. The syllabus is designed to bridge intermediate-level concepts with real-world applications, ensuring both theoretical understanding and practical proficiency.

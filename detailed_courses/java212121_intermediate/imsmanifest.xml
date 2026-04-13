@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="com.example.ai-course"
+    version="1.0"
+    xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
+    xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
+    xmlns:imsss="http://www.imsglobal.org/xsd/imsss"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <organizations default="org1">
+    <organization identifier="org1">
+      <title>AI Generated Course</title>
+
+      <item identifier="item1" identifierref="resource1" isvisible="true">
+        <title>Lesson 1</title>
+      </item>
+
+      <item identifier="item_assessment" identifierref="resource_assessment" isvisible="true">
+        <title>Final Assessment</title>
+      </item>
+
+    </organization>
+  </organizations>
+
+  <resources>
+    <resource identifier="resource1" type="webcontent" adlcp:scormType="sco" href="index.html">
+      <file href="index.html"/>
+    </resource>
+
+    <resource identifier="resource_assessment" type="webcontent" adlcp:scormType="sco" href="assessment.html">
+      <file href="assessment.html"/>
+    </resource>
+
+  </resources>
+</manifest>

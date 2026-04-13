@@ -1,0 +1,50 @@
+# Python1121 Course Syllabus  
+**Course Duration:** 4 hours (6 modules)  
+**Target Audience:** Intermediate learners  
+**Content Type:** Text  
+**Assessment Type:** Multiple Choice Questions (MCQs)  
+**Number of Attempts Allowed:** 2  
+
+---
+
+## **Module 1: Advanced Data Structures in Python**  
+**Description:**  
+This module explores advanced data structures such as sets, dictionaries, and tuples. Learners will understand how to leverage these structures for optimized coding and efficient data manipulation.  
+
+---
+
+## **Module 2: Functions and Scope**  
+**Description:**  
+Dive deeper into Python functions, including default arguments, keyword arguments, and *args/**kwargs. This module will also discuss local and global scope, closures, and the concept of lambda functions.  
+
+---
+
+## **Module 3: File Handling**  
+**Description:**  
+Understand the intricacies of file handling in Python. Topics include reading and writing text/binary files, file modes, handling exceptions while working with files, and using Python's `with` statement for resource management.  
+
+---
+
+## **Module 4: Object-Oriented Programming (OOP) in Python**  
+**Description:**  
+This module focuses on the principles of object-oriented programming in Python. Key concepts include classes, objects, inheritance, polymorphism, encapsulation, and the use of magic methods.  
+
+---
+
+## **Module 5: Error and Exception Handling**  
+**Description:**  
+Learn how to effectively manage errors and exceptions in Python. Topics include the `try`, `except`, `finally` blocks, raising exceptions manually, and creating custom exception classes.  
+
+---
+
+## **Module 6: Working with Modules and Packages**  
+**Description:**  
+In this module, learners will explore Python's module and package ecosystem. Topics include creating and importing custom modules, using built-in Python modules, and understanding the role of `__init__.py` in packages.  
+
+---
+
+## **Assessment**  
+- Each module concludes with an MCQ-based assessment to test the learner's understanding of the concepts covered.  
+- Learners are allowed **two attempts** per module to complete the assessment.  
+
+**Note:** This course is designed for learners with prior experience in Python, and it assumes a foundational understanding of Python basics.

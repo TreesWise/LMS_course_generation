@@ -1,0 +1,204 @@
+<html><head><meta charset='utf-8'><title>Course</title></head><body><h1>Course Content</h1>
+<pre>{
+    &quot;syllabus_name&quot;: &quot;python1121_intermediate&quot;,
+    &quot;updated_content&quot;: &quot;Certainly! Below is the detailed content for each module in the **Python1121 Course Syllabus**:
+
+---
+
+# **Module 1: Advanced Data Structures in Python  (modified)**  
+
+### **Explanation:**  
+This module delves into Python&#x27;s advanced data structures—`sets`, `dictionaries`, and `tuples`. These data structures are essential for working with collections of data effectively and efficiently. Understanding their properties, operations, and use cases will allow learners to optimize their code and solve complex problems.  
+
+### **Topics Covered:**  
+- **Sets**:  
+  - Definition and properties (unordered, unique elements).  
+  - Common operations: union, intersection, difference, symmetric difference.  
+  - Methods like `add()`, `remove()`, `discard()`, and `clear()`.  
+  - Use cases: removing duplicates, membership testing, and mathematical operations.  
+
+- **Dictionaries**:  
+  - Key-value pairs and their properties (unordered, keys are unique).  
+  - Creating dictionaries using literals and comprehensions.  
+  - Accessing, modifying, and deleting elements.  
+  - Dictionary methods like `get()`, `keys()`, `values()`, `items()`, and `update()`.  
+  - Use cases: storing and retrieving data with a logical mapping.  
+
+- **Tuples**:  
+  - Definition and immutability.  
+  - Creating tuples with and without parentheses.  
+  - Tuple unpacking and nested tuples.  
+  - Use cases: fixed collections of data, returning multiple values from functions.  
+
+### **Example Scenarios:**  
+1. Use a dictionary to store and retrieve employee information using their unique ID.  
+2. Remove duplicate items from a list using a set.  
+3. Use a tuple to store the dimensions of a rectangle (length, width).  
+
+### **Summary:**  
+This module highlights the benefits of using advanced data structures in Python. Sets are ideal for operations on unique elements, dictionaries for key-value mappings, and tuples for immutable collections. Mastering these structures ensures efficient data manipulation and problem-solving.  
+
+---
+
+# **Module 2: Functions and Scope**  
+
+### **Explanation:**  
+Functions are building blocks in Python programming. This module covers advanced concepts in functions, including argument types, scoping rules, closures, and lambdas. Learners will gain a deeper understanding of how to write reusable, efficient functions.  
+
+### **Topics Covered:**  
+- **Function Arguments**:  
+  - Positional arguments.  
+  - Default arguments.  
+  - Keyword arguments.  
+  - Variable-length arguments (*args and **kwargs).  
+
+- **Scope in Python**:  
+  - Local, global, and nonlocal scopes.  
+  - The `global` and `nonlocal` keywords.  
+  - How variable shadowing works.  
+
+- **Closures**:  
+  - Definition and how they work with nested functions.  
+  - Practical use cases of closures (e.g., creating function factories).  
+
+- **Lambda Functions**:  
+  - Syntax and use cases for anonymous functions.  
+  - Comparing lambdas with regular functions.  
+
+### **Example Scenarios:**  
+1. Create a function with default arguments for calculating discounts.  
+2. Use `*args` to accept a variable number of positional arguments for a sum function.  
+3. Use a closure to generate customized greeting functions.  
+
+### **Summary:**  
+This module emphasizes the flexibility and power of Python functions. By understanding argument types, scoping rules, and closures, learners can write code that is reusable, concise, and efficient.  
+
+---
+
+# **Module 3: File Handling**  
+
+### **Explanation:**  
+File handling is a crucial skill for working with external data. This module explores the various ways to read, write, and manage files in Python, ensuring proper resource management and error handling.  
+
+### **Topics Covered:**  
+- **File Modes**:  
+  - Read (`r`), write (`w`), append (`a`), and binary modes (`rb`, `wb`).  
+
+- **Reading and Writing Files**:  
+  - Using the `open()` function.  
+  - Reading with `read()`, `readline()`, and `readlines()`.  
+  - Writing with `write()` and `writelines()`.  
+
+- **Using the `with` Statement**:  
+  - Ensuring proper resource cleanup.  
+
+- **Error Handling with Files**:  
+  - Handling file-related exceptions using `try-except`.  
+  - Checking for file existence using `os` module.  
+
+### **Example Scenarios:**  
+1. Write a program to read a CSV file and print its contents.  
+2. Use the `with` statement to write data to a log file and ensure proper file closure.  
+3. Handle the `FileNotFoundError` exception when trying to open a non-existent file.  
+
+### **Summary:**  
+This module equips learners with skills to handle files effectively. By mastering file modes, reading/writing techniques, and error handling, learners can work seamlessly with external data sources.  
+
+---
+
+# **Module 4: Object-Oriented Programming (OOP) in Python**  
+
+### **Explanation:**  
+Object-Oriented Programming (OOP) is a programming paradigm that organizes code into reusable objects. This module introduces OOP principles and how they are implemented in Python.  
+
+### **Topics Covered:**  
+- **Classes and Objects**:  
+  - Creating classes and instantiating objects.  
+  - Attributes and methods.  
+
+- **Inheritance**:  
+  - Single and multiple inheritance.  
+  - The `super()` function.  
+
+- **Polymorphism**:  
+  - Method overloading and overriding.  
+  - The concept of duck typing.  
+
+- **Encapsulation**:  
+  - Public, private, and protected access specifiers.  
+
+- **Magic Methods**:  
+  - Common methods like `__init__`, `__str__`, `__len__`, and more.  
+
+### **Example Scenarios:**  
+1. Define a `Car` class with methods to start and stop the car.  
+2. Create a `Manager` class that inherits from an `Employee` class and overrides a method.  
+3. Use the `__str__` magic method to provide a user-friendly string representation for an object.  
+
+### **Summary:**  
+This module introduces OOP principles to help learners write modular, reusable, and scalable code. By understanding classes, inheritance, and magic methods, learners can design robust Python applications.  
+
+---
+
+# **Module 5: Error and Exception Handling**  
+
+### **Explanation:**  
+Errors and exceptions are inevitable in programming. This module teaches learners how to handle them gracefully, ensuring their programs can recover from unexpected situations.  
+
+### **Topics Covered:**  
+- **The `try-except` Block**:  
+  - Basic syntax and flow.  
+  - Catching specific exceptions.  
+
+- **The `finally` Block**:  
+  - Ensuring cleanup actions.  
+
+- **Raising Exceptions**:  
+  - Using the `raise` statement.  
+  - Raising exceptions with custom messages.  
+
+- **Custom Exception Classes**:  
+  - Creating user-defined exceptions by extending Python&#x27;s `Exception` class.  
+
+### **Example Scenarios:**  
+1. Handle a `ZeroDivisionError` when dividing numbers.  
+2. Use a `finally` block to close a file after an exception occurs.  
+3. Create a custom exception for invalid input in a banking application.  
+
+### **Summary:**  
+This module equips learners with the skills to manage errors and exceptions effectively. By learning to handle specific exceptions and create custom ones, learners can write resilient and user-friendly applications.  
+
+---
+
+# **Module 6: Working with Modules and Packages**  
+
+### **Explanation:**  
+Modules and packages are essential for organizing and reusing code. This module explores Python’s module system, including creating custom modules and working with built-in libraries.  
+
+### **Topics Covered:**  
+- **Creating and Importing Modules**:  
+  - Writing custom modules.  
+  - Importing using `import` and `from ... import` statements.  
+
+- **Built-in Python Modules**:  
+  - Using modules like `os`, `sys`, `math`, and `random`.  
+
+- **Packages**:  
+  - Creating packages and sub-packages.  
+  - The role of `__init__.py` in package structure.  
+
+### **Example Scenarios:**  
+1. Create a custom module for mathematical operations and import it in another script.  
+2. Use the `random` module to generate random numbers for a game.  
+3. Create a package with multiple modules for managing a library system.  
+
+### **Summary:**  
+This module provides the foundational knowledge needed to organize and reuse code effectively. By mastering modules and packages, learners can write scalable and maintainable Python applications.  
+
+---
+
+By completing this course, learners will gain a comprehensive understanding of advanced Python concepts, enabling them to tackle real-world programming challenges with confidence.
+&quot;
+}</pre>
+<hr/><p><a href='assessment.html'>Go to final assessment</a></p>
+</body></html>

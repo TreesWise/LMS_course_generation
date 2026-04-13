@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Final Assessment - python0123_intermediate</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .question { margin-bottom: 10px; }
+    hr { border: 0; border-top: 1px solid #eee; margin: 12px 0; }
+    .submit { margin-top: 20px; }
+    #result { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Final Assessment – Multiple-Choice Quiz</h2>
+  <p>Answer all questions below. Select the best option for each. When finished, click "Submit Quiz & Complete". A minimum score of 70% is required to pass.</p>
+  <p>Attempts allowed: 2</p>
+  <form onsubmit="return checkAnswers();">
+    <div class='question'><h4>1. What is a core idea in # **Python0123 (Intermediate Level) – Detailed Module Content**?</h4>
+<label><input type='radio' name='q1' value='0' data-correct='true'> Correct answer</label><br>
+<label><input type='radio' name='q1' value='1' data-correct='false'> Distractor A</label><br>
+<label><input type='radio' name='q1' value='2' data-correct='false'> Distractor B</label><br>
+<label><input type='radio' name='q1' value='3' data-correct='false'> Distractor C</label><br>
+</div><hr/>
+<div class='question'><h4>2. Which statement about # **Python0123 (Intermediate Level) – Detailed Module Content** is correct?</h4>
+<label><input type='radio' name='q2' value='0' data-correct='true'> Correct answer</label><br>
+<label><input type='radio' name='q2' value='1' data-correct='false'> Distractor A</label><br>
+<label><input type='radio' name='q2' value='2' data-correct='false'> Distractor B</label><br>
+<label><input type='radio' name='q2' value='3' data-correct='false'> Distractor C</label><br>
+</div><hr/>
+<div class='question'><h4>3. How would # **Python0123 (Intermediate Level) – Detailed Module Content** be applied?</h4>
+<label><input type='radio' name='q3' value='0' data-correct='true'> Correct answer</label><br>
+<label><input type='radio' name='q3' value='1' data-correct='false'> Distractor A</label><br>
+<label><input type='radio' name='q3' value='2' data-correct='false'> Distractor B</label><br>
+<label><input type='radio' name='q3' value='3' data-correct='false'> Distractor C</label><br>
+</div><hr/>
+<div class='question'><h4>4. Which topic is usually covered in # **Python0123 (Intermediate Level) – Detailed Module Content**?</h4>
+<label><input type='radio' name='q4' value='0' data-correct='true'> Correct answer</label><br>
+<label><input type='radio' name='q4' value='1' data-correct='false'> Distractor A</label><br>
+<label><input type='radio' name='q4' value='2' data-correct='false'> Distractor B</label><br>
+<label><input type='radio' name='q4' value='3' data-correct='false'> Distractor C</label><br>
+</div><hr/>
+<div class='question'><h4>5. A common tool related to # **Python0123 (Intermediate Level) – Detailed Module Content** is?</h4>
+<label><input type='radio' name='q5' value='0' data-correct='true'> Correct answer</label><br>
+<label><input type='radio' name='q5' value='1' data-correct='false'> Distractor A</label><br>
+<label><input type='radio' name='q5' value='2' data-correct='false'> Distractor B</label><br>
+<label><input type='radio' name='q5' value='3' data-correct='false'> Distractor C</label><br>
+</div><hr/>
+
+    <div class="submit">
+      <button type="submit">Submit Quiz & Complete</button>
+    </div>
+    <div id="result"></div>
+  </form>
+  
+<div id="reset-area" style="display:none; margin-top:10px;">
+  <button type="button" onclick="requestRetake()">Request Retake</button>
+  <small style="display:block; color:#555;">()</small>
+</div>
+
+  
+<script>
+const TOTAL = 5;
+const COURSE_KEY = 'attempts_python0123_intermediate';
+const RESET_ENDPOINT = null; // set to a URL string if you implement server-side reset
+
+function getAttemptsUsed() {
+    const v = localStorage.getItem(COURSE_KEY);
+    return v ? parseInt(v, 10) : 0;
+}
+
+function setAttemptsUsed(n) {
+    localStorage.setItem(COURSE_KEY, String(n));
+}
+
+function checkAnswers() {
+    const attemptsAllowed = 2;
+    let used = getAttemptsUsed();
+    if (attemptsAllowed !== null && used >= attemptsAllowed) {
+        document.getElementById('result').innerText = "No attempts left. You have used all allowed attempts.";
+        document.getElementById('reset-area').style.display = 'block';
+        return false;
+    }
+
+    let correctCount = 0;
+    for (let i=1;i<=TOTAL;i++) {
+        let radios = document.getElementsByName('q'+i);
+        let chosen = null;
+        for (let r=0;r<radios.length;r++) {
+            if (radios[r].checked) {
+                chosen = radios[r];
+                break;
+            }
+        }
+        if (chosen && chosen.dataset && chosen.dataset.correct === 'true') {
+            correctCount++;
+        }
+    }
+    const percent = Math.round((correctCount / TOTAL) * 100);
+    if (percent >= 70) {
+        document.getElementById('result').innerText = "Score: " + percent + "%." + " Status: Passed. Your completion has been recorded.";
+    } else {
+        document.getElementById('result').innerText = "Score: " + percent + "%." + " Status: Not passed. You may review the content and attempt again if allowed by the LMS.";
+    }
+
+    // increment attempts used if attempts limit is set
+    if (attemptsAllowed !== null) {
+        setAttemptsUsed(used + 1);
+        if (used + 1 >= attemptsAllowed) {
+            document.getElementById('reset-area').style.display = 'block';
+        }
+    }
+    return false; // prevent actual form submit
+}
+
+function requestRetake() {
+    // If a backend reset endpoint is available, call it:
+    if (RESET_ENDPOINT) {
+        fetch(RESET_ENDPOINT, { method: 'POST' })
+            .then(res => {
+                if (!res.ok) throw new Error('Reset failed');
+                localStorage.removeItem(COURSE_KEY);
+                alert('Retake granted. You may attempt the quiz again.');
+                document.getElementById('reset-area').style.display = 'none';
+            })
+            .catch(e => {
+                alert('Reset request failed. For now local reset will be performed.');
+                localStorage.removeItem(COURSE_KEY);
+                document.getElementById('reset-area').style.display = 'none';
+            });
+    } else {
+        // No server endpoint configured — do local clear (developer/testing)
+        localStorage.removeItem(COURSE_KEY);
+        alert('Local attempts cleared. You may attempt again (client-side only).');
+        document.getElementById('reset-area').style.display = 'none';
+    }
+}
+</script>
+
+</body>
+</html>

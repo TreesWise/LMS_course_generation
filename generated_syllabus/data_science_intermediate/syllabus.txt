@@ -1,0 +1,57 @@
+# Data Science Intermediate Course Syllabus  
+**Total Duration:** 04:00 (Hours:Minutes)  
+**Number of Modules:** 6  
+**Content Type:** Text  
+**Assessment Type:** MCQs (2 attempts allowed per assessment)  
+
+---
+
+## **Module 1: Introduction to Data Science and Workflow**  
+**Duration:** 00:30  
+**Description:**  
+This module provides an overview of data science, its key concepts, and its applications across industries. Learners will explore the data science workflow, including data collection, cleaning, analysis, and visualization.  
+
+---
+
+## **Module 2: Data Preprocessing and Cleaning Techniques**  
+**Duration:** 00:40  
+**Description:**  
+This module delves into the importance of data preprocessing and cleaning. Learners will learn techniques to handle missing data, remove duplicates, handle outliers, and standardize data for effective analysis.  
+
+---
+
+## **Module 3: Exploratory Data Analysis (EDA)**  
+**Duration:** 00:40  
+**Description:**  
+In this module, learners will understand how to explore datasets effectively. Topics include identifying patterns, summarizing datasets using descriptive statistics, and visualizing data using tools like histograms, scatter plots, and correlation matrices.  
+
+---
+
+## **Module 4: Feature Engineering and Selection**  
+**Duration:** 00:40  
+**Description:**  
+This module focuses on creating meaningful features from raw data and selecting the most impactful features for predictive modeling. Learners will gain insights into techniques like encoding categorical variables, feature scaling, and dimensionality reduction.  
+
+---
+
+## **Module 5: Intermediate Machine Learning Concepts**  
+**Duration:** 01:00  
+**Description:**  
+This module introduces intermediate machine learning techniques. Topics include supervised and unsupervised learning, model evaluation metrics, and hyperparameter tuning. Learners will also explore algorithms like decision trees, random forests, and k-means clustering.  
+
+---
+
+## **Module 6: Data Visualization and Storytelling**  
+**Duration:** 00:30  
+**Description:**  
+The final module emphasizes the importance of data visualization and effective storytelling. Learners will explore tools and techniques to create compelling visualizations, design dashboards, and communicate insights to non-technical stakeholders.  
+
+---
+
+### **Assessments**  
+- Each module will have a multiple-choice question (MCQ) assessment at the end.  
+- Learners are allowed **two attempts** per assessment to test their understanding of the module content.  
+
+--- 
+
+This structured syllabus ensures that learners gain a comprehensive understanding of intermediate data science concepts within a focused 4-hour timeframe.

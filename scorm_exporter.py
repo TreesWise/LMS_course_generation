@@ -301,8 +301,142 @@ function requestRetake() {{
     return html_page
 
 
+import re
+
+def _parse_course_content(course_text: str):
+    modules = []
+
+    # Split modules correctly
+    raw_modules = re.split(r"-{10,}\s*", course_text)
+
+    for block in raw_modules:
+        if not block.strip():
+            continue
+
+        # Extract module title
+        title_match = re.search(r"Module\s+\d+:\s*(.*)", block)
+        if not title_match:
+            continue
+
+        module_title = title_match.group(1).strip()
+
+        # Remove title line from content
+        content = block.split("\n", 1)
+        content_body = content[1] if len(content) > 1 else ""
+
+        # Split sections (1., 2., 3., 4.)
+        sections = re.split(r"\n\d+\.\s", content_body)
+
+        parsed_sections = []
+        for sec in sections:
+            if not sec.strip():
+                continue
+
+            lines = sec.strip().split("\n", 1)
+            sec_title = lines[0].strip()
+            sec_content = lines[1].strip() if len(lines) > 1 else ""
+
+            parsed_sections.append({
+                "title": sec_title,
+                "content": sec_content
+            })
+
+        modules.append({
+            "title": module_title,
+            "pages": parsed_sections
+        })
+
+    return modules
+
+def _render_course_html(modules):
+    html_content = """
+    <html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Course</title>
+        <style>
+            body { font-family: Arial; padding: 20px; background:#f5f7fa; }
+            h1 { text-align:center; }
+            .module { margin-bottom: 30px; }
+            .module h2 { color:#2c3e50; }
+
+            .card {
+                background: white;
+                border-radius: 10px;
+                padding: 15px;
+                margin: 10px 0;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            }
+
+            details summary {
+                font-weight: bold;
+                cursor: pointer;
+                font-size: 16px;
+            }
+
+            .content {
+                margin-top:10px;
+                line-height:1.6;
+                color:#333;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Course Content</h1>
+    """
+
+    for idx, mod in enumerate(modules, start=1):
+        html_content += f"""
+        <div class='module'>
+            <h2>Module {idx}: {html.escape(mod['title'])}</h2>
+        """
+
+        for page in mod["pages"]:
+            # formatted = html.escape(page["content"]).replace("\n", "<br>")
+            formatted = html.escape(page["content"])
+
+            formatted = formatted.replace("Explanation:", "<br><b>Explanation:</b>")
+            formatted = formatted.replace("Syntax:", "<br><b>Syntax:</b>")
+            formatted = formatted.replace("Example:", "<br><b>Example:</b>")
+            formatted = formatted.replace("Subtopics:", "<br><b>Subtopics:</b>")
+            formatted = formatted.replace("Subtopic Explanation:", "<br><b>Subtopic Explanation:</b>")
+
+            formatted = formatted.replace("\n", "<br>")
+            # html_content += f"""
+            # <div class='card'>
+            #     <details>
+            #         <summary>{html.escape(page['title'])}</summary>
+            #         <div class='content'>{formatted}</div>
+            #     </details>
+            # </div>
+            # """
+            
+            # Skip collapse for module title
+            if page['title'].lower().startswith("module"):
+                html_content += f"""
+                <div class='card'>
+                    <div style="font-weight:bold; font-size:16px;">
+                        {html.escape(page['title'])}
+                    </div>
+                </div>
+                """
+            else:
+                html_content += f"""
+                <div class='card'>
+                    <details>
+                        <summary>▶ {html.escape(page['title'])}</summary>
+                        <div class='content'>{formatted}</div>
+                    </details>
+                </div>
+    """
+
+        html_content += "</div>"
+
+    html_content += "</body></html>"
+    return html_content
+
 def generate_scorm(course_text: str, output_dir: str = "scorm_package",
-                   assessment_type: Optional[str] = None, attempts: Optional[int] = None) -> str:
+                   assessment_type: Optional[str] = None, attempts: Optional[int] = None, course_id: str = "default_course") -> str:
     """
     Generate a minimal SCORM package with:
       - index.html containing course_text and a link to assessment (if assessment_type provided)
@@ -313,12 +447,22 @@ def generate_scorm(course_text: str, output_dir: str = "scorm_package",
     os.makedirs(output_dir, exist_ok=True)
 
     # Save index.html with link to assessment if applicable
-    index_html = "<html><head><meta charset='utf-8'><title>Course</title></head><body>"
-    index_html += f"<h1>Course Content</h1>\n<pre>{html.escape(course_text)}</pre>\n"
-    if assessment_type:
-        index_html += f"<hr/><p><a href='assessment.html'>Go to final assessment</a></p>\n"
-    index_html += "</body></html>"
+    # index_html = "<html><head><meta charset='utf-8'><title>Course</title></head><body>"
+    # index_html += f"<h1>Course Content</h1>\n<pre>{html.escape(course_text)}</pre>\n"
+    # if assessment_type:
+    #     index_html += f"<hr/><p><a href='assessment.html'>Go to final assessment</a></p>\n"
+    # index_html += "</body></html>"
 
+    # Parse + render structured content
+    modules = _parse_course_content(course_text)
+    index_html = _render_course_html(modules)
+ 
+    # Add assessment link if needed
+    if assessment_type:
+        index_html = index_html.replace(
+            "</body>",
+            "<hr/><p><a href='assessment.html'>Go to final assessment</a></p></body>"
+        )
     with open(os.path.join(output_dir, "index.html"), "w", encoding="utf-8") as f:
         f.write(index_html)
 
@@ -341,7 +485,8 @@ def generate_scorm(course_text: str, output_dir: str = "scorm_package",
         has_assessment = True
 
         # create a course-unique id for localStorage usage: sanitize folder name
-        course_id = os.path.basename(output_dir).replace(' ', '_').lower()
+        # course_id = os.path.basename(output_dir).replace(' ', '_').lower()
+        course_id = course_id or os.path.basename(output_dir)
         assessment_html = _render_assessment_html(os.path.basename(output_dir), questions, attempts, course_id)
         with open(os.path.join(output_dir, "assessment.html"), "w", encoding="utf-8") as f:
             f.write(assessment_html)
